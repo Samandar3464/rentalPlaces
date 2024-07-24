@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="3"  author="samandar">
+        <createTable tableName="users" >
+            <column name="id" autoIncrement="true" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"  />
+            </column>
+
+            <column name="phone" type="VARCHAR(55)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="name" type="VARCHAR(255)" />
+            <column name="surname" type="VARCHAR(255)" />
+            <column name="father_name" type="VARCHAR(255)" />
+            <column name="gender" type="VARCHAR(255)" />
+            <column name="birth_date" type="DATE" />
+            <column name="created_at" type="TIMESTAMP" />
+            <column name="blocked" type="BOOLEAN" />
+            <column name="deleted" type="BOOLEAN" />
+            <column name="firebase_token" type="text" />
+            <column name="avatar_id" type="BIGINT">
+                <constraints
+                             foreignKeyName="fk_avatar_id"
+                             referencedTableName="attachment"
+                             referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <!-- Define changeset for Many-to-Many relationship with user_role table -->
+    <changeSet id="3.1" author="samandar">
+        <createTable tableName="users_role">
+            <column name="user_entity_id" type="INT">
+                <constraints nullable="false" foreignKeyName="fk67uipc0lhsr8bh7s8s369r8a5" referencedTableName="users"  referencedColumnNames="id"/>
+            </column>
+            <column name="role_id" type="INT">
+                <constraints nullable="false" foreignKeyName="fkeejqlb4gq1av9540jg66ju2pi" referencedTableName="roles"  referencedColumnNames="id"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

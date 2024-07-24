@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <include file="/db/changelog/migration/changelog-1-create_roles_table.xml"/>
+    <include file="/db/changelog/migration/changelog-2.0-create_attachment_table.xml"/>
+    <include file="/db/changelog/migration/changelog-3-create_users_table.xml"/>
+    <include file="/db/changelog/migration/changelog-4.0-create_language_base_words_table.xml"/>
+    <include file="/db/changelog/migration/changelog-5.0-create_language_source_table.xml"/>
+    <include file="/db/changelog/migration/changelog-6.0-create_sms_table.xml"/>
+    <include file="/db/changelog/migration/changelog-7.0-create_sms_service_token_table.xml"/>
+    <include file="/db/changelog/migration/changelog-8.0-insert_user.xml"/>
+
+</databaseChangeLog>

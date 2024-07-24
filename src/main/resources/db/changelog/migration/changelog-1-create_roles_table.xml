@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="1" author="samandar">
+        <createTable tableName="roles">
+            <column name="id" autoIncrement="true" type="INT">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="varchar(255)" />
+            <column name="deleted" type="BOOLEAN" />
+            <column name="created_at" type="TIMESTAMP"  defaultValueDate="CURRENT_TIMESTAMP" />
+        </createTable>
+
+        <insert tableName="roles">
+            <column name="name" value="admin"/>
+            <column name="description" value=" system admin" />
+            <column name="deleted" value="false" />
+        </insert>
+        <insert tableName="roles">
+            <column name="name" value="owner"/>
+            <column name="description" value=" place owner role" />
+            <column name="deleted" value="false" />
+        </insert>
+        <insert tableName="roles">
+            <column name="name" value="client"/>
+            <column name="description" value=" client role" />
+            <column name="deleted" value="false" />
+        </insert>
+
+    </changeSet>
+
+
+</databaseChangeLog>

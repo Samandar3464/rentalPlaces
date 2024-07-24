@@ -1,0 +1,49 @@
+package uz.project.rentalplaces.entity.language;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+import java.io.Serializable;
+
+@Entity
+@Table(name = "language_source")
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+public class LanguageSource implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "language_base_word_id")
+    private LanguageBaseWords languageBaseWords;
+
+    private String language;
+
+    private String translation;
+
+    public LanguageSource(LanguageBaseWords languageBaseWords, String language, String translation) {
+        this.languageBaseWords = languageBaseWords;
+        this.language = language;
+        this.translation = translation;
+    }
+
+    public LanguageSource(@JsonProperty("id") Integer id,
+                          @JsonProperty("language_ps_id") LanguageBaseWords languageBaseWords,
+                          @JsonProperty("language") String language,
+                          @JsonProperty("translation") String translation) {
+        this.id = id;
+        this.languageBaseWords = languageBaseWords;
+        this.language = language;
+        this.translation = translation;
+    }
+}
