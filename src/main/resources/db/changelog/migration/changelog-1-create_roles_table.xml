@@ -23,7 +23,7 @@
             <column name="deleted" value="false" />
         </insert>
         <insert tableName="roles">
-            <column name="name" value="owner"/>
+            <column name="name" value="rent_owner"/>
             <column name="description" value=" place owner role" />
             <column name="deleted" value="false" />
         </insert>

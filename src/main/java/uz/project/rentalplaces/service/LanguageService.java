@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +47,7 @@ public class LanguageService {
                     .build();
             languageRepository.save(languageBaseWords);
         }
-        return new ApiResponse(SUCCESSFULLY , true);
+        return new ApiResponse(SUCCESSFULLY , HttpStatus.OK.value());
     }
 
 
@@ -70,7 +71,7 @@ public class LanguageService {
                     en.setLanguage("En");
 
                     languageSourceRepository.saveAll(allByIdId);
-                    return new ApiResponse(SUCCESSFULLY , true);
+                    return new ApiResponse(SUCCESSFULLY , HttpStatus.OK.value());
                 }
                 HashMap<LanguageEnum, String> translations = dto.getTranslations();
 
@@ -81,15 +82,15 @@ public class LanguageService {
         } catch (Exception e) {
             throw e;
         }
-        return new ApiResponse(SUCCESSFULLY , true);
+        return new ApiResponse(SUCCESSFULLY , HttpStatus.OK.value());
     }
 
     public ApiResponse getAllPaginated(int page, int size , String content) {
         Pageable pageable = PageRequest.of(page, size);
         if (content.equals("null")) {
-            return  new ApiResponse(languageRepository.findAll(pageable),true);
+            return  new ApiResponse(languageRepository.findAll(pageable),HttpStatus.OK.value());
         }
-        return  new ApiResponse(languageRepository.findAllByTextContainingIgnoreCase(pageable, content),true);
+        return  new ApiResponse(languageRepository.findAllByTextContainingIgnoreCase(pageable, content),HttpStatus.OK.value());
     }
 
     public ApiResponse getAllByLanguage(String language) {
@@ -107,7 +108,7 @@ public class LanguageService {
                 }
             }
         }
-        return new ApiResponse(languageSourceMap,true);
+        return new ApiResponse(languageSourceMap,HttpStatus.OK.value());
     }
 
 }

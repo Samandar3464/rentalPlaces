@@ -64,7 +64,7 @@ public class UserService {
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         entity.setRole(roleRepository.findAllByName("users"));
         userRepository.save(entity);
-        return new ApiResponse(SUCCESSFULLY, true);
+        return new ApiResponse(SUCCESSFULLY, HttpStatus.OK.value());
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -75,7 +75,7 @@ public class UserService {
             userEntity.setBlocked(true);
             userRepository.save(userEntity);
         }
-        return new ApiResponse(USER_VERIFIED_SUCCESSFULLY, true);
+        return new ApiResponse(USER_VERIFIED_SUCCESSFULLY, HttpStatus.OK.value());
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -84,7 +84,7 @@ public class UserService {
         String message = "Tasdiqlash kodi: " + code;
         smsService.send(number, message, code);
         System.out.println("code ->" + code);
-        return new ApiResponse(SUCCESSFULLY, true);
+        return new ApiResponse(SUCCESSFULLY, HttpStatus.OK.value());
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -93,7 +93,7 @@ public class UserService {
             Authentication authentication = new UsernamePasswordAuthenticationToken(userLoginRequestDto.getPhone(), userLoginRequestDto.getPassword());
             Authentication authenticate = authenticationManager.authenticate(authentication);
             UserEntity userEntity = (UserEntity) authenticate.getPrincipal();
-            return new ApiResponse(new TokenResponse(jwtGenerate.generateAccessToken(userEntity), jwtGenerate.generateRefreshToken(userEntity)), true);
+            return new ApiResponse(new TokenResponse(jwtGenerate.generateAccessToken(userEntity), jwtGenerate.generateRefreshToken(userEntity)), HttpStatus.OK.value());
         } catch (BadCredentialsException e) {
             throw new UserNotFoundException(USER_NOT_FOUND);
         }
@@ -111,7 +111,7 @@ public class UserService {
         if (user.getAvatar() != null) {
             dto.setAvatarUrl(attachmentService.getUrl(user.getAvatar()));
         }
-        return new ApiResponse(dto, true);
+        return new ApiResponse(dto, HttpStatus.OK.value());
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -124,7 +124,7 @@ public class UserService {
             userEntity.setAvatar(attachment);
         }
         addUserRole(userEntity, "client");
-        return new ApiResponse(SUCCESSFULLY, true);
+        return new ApiResponse(SUCCESSFULLY, HttpStatus.OK.value());
     }
 
 
@@ -135,7 +135,7 @@ public class UserService {
         String message = "Tasdiqlash kodi: " + code;
         smsService.send(number, message, code);
         System.out.println("code ->" + code);
-        return new ApiResponse(SUCCESSFULLY, true);
+        return new ApiResponse(SUCCESSFULLY, HttpStatus.OK.value());
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -143,7 +143,7 @@ public class UserService {
         UserEntity userEntity = userRepository.findByPhone(dto.getPhone()).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND));
         userEntity.setPassword(passwordEncoder.encode(dto.getPassword()));
         userRepository.save(userEntity);
-        return new ApiResponse(userEntity, true);
+        return new ApiResponse(userEntity, HttpStatus.OK.value());
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -154,7 +154,7 @@ public class UserService {
             UserEntity userEntity = (UserEntity) authenticate.getPrincipal();
             userEntity.setPassword(passwordEncoder.encode(dto.getNewPassword()));
             userRepository.save(userEntity);
-            return new ApiResponse(userEntity, true);
+            return new ApiResponse(userEntity, HttpStatus.OK.value());
         } catch (Exception e) {
             throw new UserException(SOMETHING_WRONG);
         }
@@ -164,7 +164,7 @@ public class UserService {
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse getToken(String refresh) throws Exception {
         String accessTokenByRefresh = jwtGenerate.checkRefreshTokenValidAndGetAccessToken(refresh);
-        return new ApiResponse("NEW ACCESS TOKEN ", true, new TokenResponse(accessTokenByRefresh));
+        return new ApiResponse("NEW ACCESS TOKEN ", HttpStatus.OK.value(), new TokenResponse(accessTokenByRefresh));
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -172,7 +172,7 @@ public class UserService {
         UserEntity userEntity = checkUserExistById(id);
         userEntity.setBlocked(false);
         userRepository.save(userEntity);
-        return new ApiResponse(BLOCKED, true);
+        return new ApiResponse(BLOCKED, HttpStatus.OK.value());
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -180,7 +180,7 @@ public class UserService {
         UserEntity userEntity = checkUserExistById(id);
         userEntity.setBlocked(true);
         userRepository.save(userEntity);;
-        return new ApiResponse(OPEN, true);
+        return new ApiResponse(OPEN, HttpStatus.OK.value());
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -188,20 +188,20 @@ public class UserService {
         UserEntity userEntity = checkUserExistByPhone(dto.getPhone());
         userEntity.setFirebaseToken(dto.getFireBaseToken());
         userRepository.save(userEntity);
-        return new ApiResponse(SUCCESSFULLY, true);
+        return new ApiResponse(SUCCESSFULLY, HttpStatus.OK.value());
     }
 
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse getByUserId(Long id) {
         UserEntity userEntity = checkUserExistById(id);
-        return new ApiResponse(userEntity, true);
+        return new ApiResponse(userEntity, HttpStatus.OK.value());
     }
 
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse getUserList(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<UserEntity> all = userRepository.findAll(pageable);
-        return new ApiResponse(all, true);
+        return new ApiResponse(all, HttpStatus.OK.value());
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -211,7 +211,7 @@ public class UserService {
         if (authentication != null && authentication.getName().equals(userEntity.getUsername())) {
             SecurityContextHolder.getContext().setAuthentication(null);
         }
-        return new ApiResponse(SUCCESSFULLY, true);
+        return new ApiResponse(SUCCESSFULLY, HttpStatus.OK.value());
     }
 
     public UserEntity checkUserExistByContext() {

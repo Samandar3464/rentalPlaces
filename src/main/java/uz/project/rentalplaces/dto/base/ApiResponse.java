@@ -13,16 +13,16 @@ public class ApiResponse implements Serializable {
 
     private String message;
 
-    private boolean status;
+    private Integer status;
 
     private Object data;
 
-    public ApiResponse(String message, boolean status) {
+    public ApiResponse(String message, Integer status) {
         this.message = message;
         this.status = status;
     }
 
-    public ApiResponse(Object data, boolean status) {
+    public ApiResponse(Object data, Integer status) {
         this.status = status;
         this.data = data;
     }

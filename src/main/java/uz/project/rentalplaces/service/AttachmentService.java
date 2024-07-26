@@ -2,6 +2,7 @@ package uz.project.rentalplaces.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import uz.project.rentalplaces.dto.base.ApiResponse;
@@ -137,7 +138,7 @@ public class AttachmentService {
             Path file = Paths.get(attachUploadFolder + entity.getPath() + "/" + fileName);
             Files.delete(file);
             attachmentRepository.deleteById(entity.getId());
-            return new ApiResponse(DELETED, true);
+            return new ApiResponse(DELETED, HttpStatus.OK.value());
         } catch (IOException e) {
             throw new RecordNotFoundException(FILE_NOT_FOUND);
         }
