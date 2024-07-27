@@ -7,6 +7,8 @@ import uz.project.rentalplaces.enums.RentalPlaceTypeEnum;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class RentalPlaceCreateDto {
 
     private RentalPlaceTypeEnum rentalPlaceTypeEnum;
@@ -16,8 +18,6 @@ public class RentalPlaceCreateDto {
     private String info;
 
     private List<MultipartFile> photos;
-
-    private Integer price;
 
     private Integer longitude;
 

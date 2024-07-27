@@ -43,7 +43,6 @@ public class RentalPlaceResponseDto {
                 .rentalPlaceTypeEnum(entity.getRentalPlaceTypeEnum())
                 .rentForEnum(entity.getRentForEnum())
                 .info(entity.getInfo())
-                .price(entity.getPrice())
                 .longitude(entity.getLongitude())
                 .latitude(entity.getLatitude())
                 .createdAt(entity.getCreatedAt())

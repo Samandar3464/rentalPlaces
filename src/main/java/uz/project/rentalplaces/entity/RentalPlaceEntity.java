@@ -44,8 +44,6 @@ public class RentalPlaceEntity {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Attachment> photos;
 
-    private Integer price;
-
     private Integer longitude;
 
     private Integer latitude;
@@ -61,7 +59,6 @@ public class RentalPlaceEntity {
                 .rentalPlaceTypeEnum(dto.getRentalPlaceTypeEnum())
                 .rentForEnum(dto.getRentForEnum())
                 .info(dto.getInfo())
-                .price(dto.getPrice())
                 .longitude(dto.getLongitude())
                 .latitude(dto.getLatitude())
                 .createdAt(LocalDateTime.now())
