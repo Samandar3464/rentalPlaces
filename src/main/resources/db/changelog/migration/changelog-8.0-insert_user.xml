@@ -38,7 +38,7 @@
         </insert>
 
     </changeSet>
-    <changeSet id="17.1" author="samandar">
+    <changeSet id="8.1" author="samandar">
         <insert tableName="users_role">
             <column name="role_id" value="1"/>
             <column name="user_entity_id" value="1"/>

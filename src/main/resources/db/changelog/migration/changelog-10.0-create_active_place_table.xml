@@ -3,7 +3,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="9" author="Samandar">
+    <changeSet id="10" author="Samandar">
         <createTable tableName="active_place">
             <column name="id" type="UUID">
                 <constraints primaryKey="true" nullable="false"/>
