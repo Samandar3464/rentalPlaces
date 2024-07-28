@@ -3,16 +3,11 @@ package uz.project.rentalplaces.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import uz.project.rentalplaces.dto.place.ActivatePlaceDto;
-import uz.project.rentalplaces.dto.place.RentalPlaceCreateDto;
-import uz.project.rentalplaces.enums.RentForEnum;
-import uz.project.rentalplaces.enums.RentalPlaceTypeEnum;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -42,15 +37,19 @@ public class ActivePlaceEntity {
     private LocalDate day;
 
     @JsonFormat(pattern = "YYYY-MM-DD HH:mm:ss")
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    @Column(name = "activated_date")
+    private LocalDateTime activatedDate;
+
+    @JsonFormat(pattern = "YYYY-MM-DD HH:mm:ss")
+    @Column(name = "deactivated_date")
+    private LocalDateTime deactivatedDate;
 
 public  static ActivePlaceEntity toEntity(ActivatePlaceDto dto){
     return ActivePlaceEntity.builder()
             .active(true)
             .price(dto.getPrice())
             .day(dto.getDay())
-            .createdAt(LocalDateTime.now())
+            .activatedDate(LocalDateTime.now())
             .build();
 }
 }

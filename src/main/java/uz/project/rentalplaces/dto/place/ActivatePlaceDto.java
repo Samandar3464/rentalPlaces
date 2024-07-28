@@ -1,5 +1,9 @@
 package uz.project.rentalplaces.dto.place;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 import uz.project.rentalplaces.enums.RentForEnum;
@@ -17,6 +21,8 @@ public class ActivatePlaceDto {
 
     private Long ownerId;
 
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate day;
 
     private String price;

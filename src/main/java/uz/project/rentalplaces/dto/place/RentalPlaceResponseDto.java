@@ -4,12 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 import uz.project.rentalplaces.entity.RentalPlaceEntity;
-import uz.project.rentalplaces.enums.RentForEnum;
-import uz.project.rentalplaces.enums.RentalPlaceTypeEnum;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -18,9 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 public class RentalPlaceResponseDto {
 
-    private RentalPlaceTypeEnum rentalPlaceTypeEnum;
+    private String rentalPlaceType;
 
-    private RentForEnum rentForEnum;
+    private String rentFor;
 
     private String info;
 
@@ -34,18 +30,18 @@ public class RentalPlaceResponseDto {
 
     private Boolean active;
 
-    private LocalDateTime createdAt;
+    private String createdAt;
 
     private Long ownerId;
 
     public static RentalPlaceResponseDto toDto(RentalPlaceEntity entity){
         return RentalPlaceResponseDto.builder()
-                .rentalPlaceTypeEnum(entity.getRentalPlaceTypeEnum())
-                .rentForEnum(entity.getRentForEnum())
+                .rentalPlaceType(entity.getRentalPlaceType())
+                .rentFor(entity.getRentFor())
                 .info(entity.getInfo())
                 .longitude(entity.getLongitude())
                 .latitude(entity.getLatitude())
-                .createdAt(entity.getCreatedAt())
+                .createdAt(entity.getCreatedAt().toString())
                 .active(entity.getActive())
                 .build();
     }

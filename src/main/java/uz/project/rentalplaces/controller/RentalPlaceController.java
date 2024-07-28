@@ -36,13 +36,13 @@ public class RentalPlaceController {
         return rentalPlaceService.getOwnerPlaces(ownerId);
     }
 
-    @PutMapping("/activate")
+    @PostMapping("/activate")
     @PreAuthorize("hasAnyRole('admin' ,'rent_owner')")
     public ApiResponse activePlace(@RequestBody ActivatePlaceDto dto) {
         return rentalPlaceService.activePlace(dto);
     }
 
-    @PutMapping("/deactivate")
+    @PostMapping("/deactivate")
     @PreAuthorize("hasAnyRole('admin' ,'rent_owner')")
     public ApiResponse deActivePlace(@RequestBody DeActivatePlaceDto dto) {
         return rentalPlaceService.deActivePlace(dto);

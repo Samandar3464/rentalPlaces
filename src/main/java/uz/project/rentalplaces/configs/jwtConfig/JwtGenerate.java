@@ -20,8 +20,8 @@ public class JwtGenerate {
 
     private  final String JWT_ACCESS_KEY = "404E635266556A586E327235753878F413F4428472B4B6250645367566B5970";
     private  final String JWT_REFRESH_KEY = "404E635266556A586E327235753878F413F4428472B4B6250645lll367566B5970";
-    private  final long accessTokenLiveTime = 1000 * 60 * 60 * 3;//*100000;
-    private  final long reFreshTokenLiveTime = 1000 * 60 * 60 * 5;//* 60 * 60 * 24;
+    private  final long accessTokenLiveTime = 1000 * 60 * 60 * 300;//*100000;
+    private  final long reFreshTokenLiveTime = 1000 * 60 * 60 * 100;//* 60 * 60 * 24;
 
     public  synchronized String generateAccessToken(UserEntity userEntity) {
         return Jwts.builder()

@@ -5,8 +5,8 @@
 
     <changeSet id="2" author="Samandar">
         <createTable tableName="attachment">
-            <column name="id" type="BIGINT">
-                <constraints primaryKey="true" nullable="false"/>
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" />
             </column>
             <column name="origin_name" type="VARCHAR(255)"/>
             <column name="size" type="BIGINT"/>

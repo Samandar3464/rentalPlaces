@@ -1,6 +1,8 @@
 package uz.project.rentalplaces.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -40,15 +42,18 @@ public class Attachment {
 
     @CreationTimestamp
     @Column(name = "created_at")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime updatedAt;
 
     @JsonFormat(pattern = "YYYY-MM-DD HH:mm:ss")
     @UpdateTimestamp
     @Column(name = "deleted_at")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime deletedAt;
 
     @Column(name = "deleted")

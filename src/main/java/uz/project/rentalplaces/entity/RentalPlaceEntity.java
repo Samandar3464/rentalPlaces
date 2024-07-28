@@ -2,14 +2,12 @@ package uz.project.rentalplaces.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.annotations.Type;
 import uz.project.rentalplaces.dto.place.RentalPlaceCreateDto;
-import uz.project.rentalplaces.enums.RentForEnum;
-import uz.project.rentalplaces.enums.RentalPlaceTypeEnum;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,11 +27,11 @@ public class RentalPlaceEntity {
     private Long id;
 
     @NotBlank
-    @Column(name = "place_type", unique = true)
-    private RentalPlaceTypeEnum rentalPlaceTypeEnum;
+    @Column(name = "place_type")
+    private String rentalPlaceType;
 
     @Column(name = "rent_for")
-    private RentForEnum rentForEnum;
+    private String rentFor;
 
     @Column(name = "info", columnDefinition = "text")
     private String info;
@@ -52,12 +50,13 @@ public class RentalPlaceEntity {
 
     @JsonFormat(pattern = "YYYY-MM-DD HH:mm:ss")
     @Column(name = "created_at")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime createdAt;
 
     public static RentalPlaceEntity toEntity(RentalPlaceCreateDto dto) {
         return RentalPlaceEntity.builder()
-                .rentalPlaceTypeEnum(dto.getRentalPlaceTypeEnum())
-                .rentForEnum(dto.getRentForEnum())
+                .rentalPlaceType(dto.getRentalPlaceTypeEnum().getText())
+                .rentFor(dto.getRentForEnum().getText())
                 .info(dto.getInfo())
                 .longitude(dto.getLongitude())
                 .latitude(dto.getLatitude())

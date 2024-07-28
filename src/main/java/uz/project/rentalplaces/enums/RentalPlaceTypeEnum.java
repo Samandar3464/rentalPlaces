@@ -1,8 +1,18 @@
 package uz.project.rentalplaces.enums;
 
-public enum RentalPlaceTypeEnum {
-    DACHA,
-    TAPCHAN,
-    SUPA
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
+@AllArgsConstructor
+public enum RentalPlaceTypeEnum {
+    DACHA("DACHA"),
+    TAPCHAN("TAPCHAN"),
+    SUPA("SUPA")
+    ;
+    private String text;
+
+    public String value() {
+        return this.toString();
+    }
 }

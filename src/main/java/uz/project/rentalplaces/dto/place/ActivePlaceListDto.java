@@ -1,18 +1,12 @@
 package uz.project.rentalplaces.dto.place;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
 import lombok.*;
 import uz.project.rentalplaces.entity.ActivePlaceEntity;
-import uz.project.rentalplaces.entity.Attachment;
 import uz.project.rentalplaces.entity.RentalPlaceEntity;
 import uz.project.rentalplaces.entity.UserEntity;
-import uz.project.rentalplaces.enums.RentForEnum;
-import uz.project.rentalplaces.enums.RentalPlaceTypeEnum;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,11 +21,11 @@ public class ActivePlaceListDto {
 
     private String price;
 
-    private LocalDate activeDay;
+    private String activeDay;
 
-    private RentalPlaceTypeEnum rentalPlaceTypeEnum;
+    private String rentalPlaceType;
 
-    private RentForEnum rentForEnum;
+    private String rentFor;
 
     private String info;
 
@@ -51,9 +45,9 @@ public class ActivePlaceListDto {
         return ActivePlaceListDto.builder()
                 .activeId(activePlace.getId())
                 .price(activePlace.getPrice())
-                .activeDay(activePlace.getDay())
-                .rentalPlaceTypeEnum(rentalPlace.getRentalPlaceTypeEnum())
-                .rentForEnum(rentalPlace.getRentForEnum())
+                .activeDay(activePlace.getDay().toString())
+                .rentalPlaceType(rentalPlace.getRentalPlaceType())
+                .rentFor(rentalPlace.getRentFor())
                 .info(rentalPlace.getInfo())
                 .latitude(rentalPlace.getLatitude())
                 .longitude(rentalPlace.getLongitude())
