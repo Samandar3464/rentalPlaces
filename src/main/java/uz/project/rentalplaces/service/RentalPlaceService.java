@@ -2,10 +2,14 @@ package uz.project.rentalplaces.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import uz.project.rentalplaces.specifacation.rentalPlace.RenalPlaceCriteriaRepository;
+import uz.project.rentalplaces.specifacation.rentalPlace.RenalPlacePage;
+import uz.project.rentalplaces.specifacation.rentalPlace.RentalPlaceSearchCriteria;
 import uz.project.rentalplaces.dto.base.ApiResponse;
 import uz.project.rentalplaces.dto.base.PageRequestFilter;
 import uz.project.rentalplaces.dto.place.*;
@@ -15,7 +19,6 @@ import uz.project.rentalplaces.exception.RecordNotFoundException;
 import uz.project.rentalplaces.repository.ActivePlaceRepository;
 import uz.project.rentalplaces.repository.RentalPlaceRepository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,7 @@ public class RentalPlaceService {
     private final AttachmentService attachmentService;
     private final UserService userService;
     private final LocalDateTimeConverter converter;
+    private final RenalPlaceCriteriaRepository searchCriteriaRepository;
 
     @Transactional
     public ApiResponse createPlace(RentalPlaceCreateDto dto) {
@@ -88,19 +92,24 @@ public class RentalPlaceService {
         return new ApiResponse(responseList, HttpStatus.OK.value());
     }
 
-    public ApiResponse getAllActivePlaces(PageRequestFilter page, LocalDate day) {
-        PageRequest pageRequest = PageRequest.of(page.getPageNumber(), page.getPageSize());
-        Page<ActivePlaceEntity> activePlaceEntities = activePlaceRepository.findAllByActiveTrueAndDay(pageRequest, day);
-        List<ActivePlaceListDto> responseList = new ArrayList<>();
-        activePlaceEntities.getContent().forEach(obj -> {
-            RentalPlaceEntity place = obj.getPlace();
-            UserEntity owner = place.getOwner();
-            List<String> urlList = attachmentService.getUrlList(place.getPhotos());
-            ActivePlaceListDto dto = ActivePlaceListDto.toDto(obj, place, owner);
-            dto.setPhotos(urlList);
-            responseList.add(dto);
-        });
-        return new ApiResponse(responseList, HttpStatus.OK.value());
+//    public ApiResponse getAllActivePlaces(PageRequestFilter page , RentalPlaceSearchCriteria criteria) {
+//        PageRequest pageRequest = PageRequest.of(page.getPageNumber(), page.getPageSize());
+//        Page<ActivePlaceEntity> activePlaceEntities = activePlaceRepository.findAllByActiveTrueAndDay(pageRequest, day);
+//        List<ActivePlaceListDto> responseList = new ArrayList<>();
+//        activePlaceEntities.getContent().forEach(obj -> {
+//            RentalPlaceEntity place = obj.getPlace();
+//            UserEntity owner = place.getOwner();
+//            List<String> urlList = attachmentService.getUrlList(place.getPhotos());
+//            ActivePlaceListDto dto = ActivePlaceListDto.toDto(obj, place, owner);
+//            dto.setPhotos(urlList);
+//            responseList.add(dto);
+//        });
+//        return new ApiResponse(responseList, HttpStatus.OK.value());
+//    }
+
+    public ApiResponse getAllActivePlaces(RenalPlacePage page , RentalPlaceSearchCriteria criteria) {
+        PageImpl<ActivePlaceListDto> allWithFilters = searchCriteriaRepository.findAllWithFilters(page, criteria);
+        return new ApiResponse(allWithFilters, HttpStatus.OK.value());
     }
 
     public ApiResponse getPlaceActiveDays(Long placeId) {

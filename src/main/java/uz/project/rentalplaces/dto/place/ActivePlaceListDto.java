@@ -1,18 +1,17 @@
 package uz.project.rentalplaces.dto.place;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import uz.project.rentalplaces.entity.ActivePlaceEntity;
 import uz.project.rentalplaces.entity.RentalPlaceEntity;
 import uz.project.rentalplaces.entity.UserEntity;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class ActivePlaceListDto {
@@ -23,13 +22,15 @@ public class ActivePlaceListDto {
 
     private String activeDay;
 
-    private String rentalPlaceType;
+    private String placeType;
 
     private String rentFor;
 
     private String info;
 
     private Long ownerId;
+
+    private Long rentalPlaceId;
 
     private String ownerName;
 
@@ -46,7 +47,8 @@ public class ActivePlaceListDto {
                 .activeId(activePlace.getId())
                 .price(activePlace.getPrice())
                 .activeDay(activePlace.getDay().toString())
-                .rentalPlaceType(rentalPlace.getRentalPlaceType())
+                .placeType(rentalPlace.getRentalPlaceType())
+                .rentalPlaceId(rentalPlace.getId())
                 .rentFor(rentalPlace.getRentFor())
                 .info(rentalPlace.getInfo())
                 .latitude(rentalPlace.getLatitude())
@@ -55,5 +57,33 @@ public class ActivePlaceListDto {
                 .ownerName(userEntity.getName())
                 .ownerPhone(userEntity.getPhone())
                 .build();
+    }
+
+    public ActivePlaceListDto(@JsonProperty("active_id") UUID activeId,
+                              @JsonProperty("price") String price,
+                              @JsonProperty("active_day") String activeDay,
+                              @JsonProperty("rental_place_type") String placeType,
+                              @JsonProperty("rent_for") String rentFor,
+                              @JsonProperty("info") String info,
+                              @JsonProperty("owner_id") Long ownerId,
+                              @JsonProperty("rental_place_id") Long rentalPlaceId,
+                              @JsonProperty("owner_name") String ownerName,
+                              @JsonProperty("owner_phone") String ownerPhone,
+                              @JsonProperty("photos") List<String> photos,
+                              @JsonProperty("longitude") Integer longitude,
+                              @JsonProperty("latitude") Integer latitude) {
+        this.activeId = activeId;
+        this.price = price;
+        this.activeDay = activeDay;
+        this.placeType = placeType;
+        this.rentFor = rentFor;
+        this.info = info;
+        this.ownerId = ownerId;
+        this.rentalPlaceId = rentalPlaceId;
+        this.ownerName = ownerName;
+        this.ownerPhone = ownerPhone;
+        this.photos = photos;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 }

@@ -61,18 +61,16 @@ public class AttachmentService {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(attachUploadFolder + pathFolder + "/" + fileName + "." + extension);
             Files.write(path, bytes).toFile();
-
-            Attachment entity = Attachment.builder()
-                    .newName(fileName)
-                    .originName(file.getOriginalFilename())
-                    .type(extension)
-                    .path(pathFolder)
-                    .size(file.getSize())
-                    .contentType(file.getContentType())
-                    .createdAt(LocalDateTime.now())
-                    .updatedAt(LocalDateTime.now())
-                    .deleted(false)
-                    .build();
+            Attachment entity = new Attachment();
+                    entity.setNewName(fileName);
+                    entity.setOriginName(file.getOriginalFilename());
+                    entity.setType(extension);
+                    entity.setPath(pathFolder);
+                    entity.setSize(file.getSize());
+                    entity.setContentType(file.getContentType());
+                    entity.setCreatedAt(LocalDateTime.now());
+                    entity.setUpdatedAt(LocalDateTime.now());
+                    entity.setDeleted(false);
 
             return attachmentRepository.save(entity);
         } catch (IOException e) {

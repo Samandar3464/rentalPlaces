@@ -2,19 +2,15 @@ package uz.project.rentalplaces.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import uz.project.rentalplaces.dto.FireBaseTokenRegisterDto;
+import uz.project.rentalplaces.specifacation.rentalPlace.RenalPlacePage;
+import uz.project.rentalplaces.specifacation.rentalPlace.RentalPlaceSearchCriteria;
 import uz.project.rentalplaces.dto.base.ApiResponse;
 import uz.project.rentalplaces.dto.base.PageRequestFilter;
 import uz.project.rentalplaces.dto.place.ActivatePlaceDto;
 import uz.project.rentalplaces.dto.place.DeActivatePlaceDto;
 import uz.project.rentalplaces.dto.place.RentalPlaceCreateDto;
-import uz.project.rentalplaces.dto.user.*;
 import uz.project.rentalplaces.service.RentalPlaceService;
-import uz.project.rentalplaces.service.UserService;
-
-import java.time.LocalDate;
 
 
 @RestController
@@ -51,8 +47,8 @@ public class RentalPlaceController {
 
     @GetMapping("/all-active-places")
     @PreAuthorize("hasAnyRole('admin' ,'rent_owner' , 'client')")
-    public ApiResponse getAllActivePlaces(PageRequestFilter page, LocalDate day) {
-        return rentalPlaceService.getAllActivePlaces(page, day);
+    public ApiResponse getAllActivePlaces(RenalPlacePage page, RentalPlaceSearchCriteria criteria) {
+        return rentalPlaceService.getAllActivePlaces(page, criteria);
     }
 
 
