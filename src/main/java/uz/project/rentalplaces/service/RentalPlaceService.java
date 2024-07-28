@@ -71,28 +71,6 @@ public class RentalPlaceService {
 
     @Transactional
     public ApiResponse activePlace(ActivatePlaceDto dto) {
-        RentalPlaceEntity place = rentalPlaceRepository.findByIdAndOwnerId(dto.getPlaceId(), dto.getOwnerId()).orElseThrow(() -> new RecordNotFoundException("Place not found"));
-        activePlaceRepository.findByPlaceIdAndActiveTrueAndDay(dto.getPlaceId(), dto.getDay()).ifPresent((obj) -> {
-            throw new RecordAlreadyExistException("This day already activated");
-        });
-        ActivePlaceEntity entity = ActivePlaceEntity.toEntity(dto);
-        entity.setPlace(place);
-        activePlaceRepository.save(entity);
-        return new ApiResponse(SUCCESSFULLY, HttpStatus.OK.value());
-    }
-
-    @Transactional
-    public ApiResponse deActivePlace(DeActivatePlaceDto dto) {
-        rentalPlaceRepository.findByIdAndOwnerId(dto.getPlaceId(), dto.getOwnerId()).orElseThrow(() -> new RecordNotFoundException("Place not found"));
-        dto.getDays().forEach(day -> {
-            ActivePlaceEntity activePlaceEntity = activePlaceRepository.findByPlaceIdAndActiveTrueAndDay(dto.getPlaceId(), day).orElseThrow(() -> new RecordNotFoundException("Place not activated this day :" + day));
-            activePlaceEntity.setActive(false);
-            activePlaceRepository.save(activePlaceEntity);
-        });
-        return new ApiResponse(SUCCESSFULLY, HttpStatus.OK.value());
-    }
-
-    public ApiResponse activePlaceByAdmin(ActivatePlaceDto dto) {
         RentalPlaceEntity place = rentalPlaceRepository.findById(dto.getPlaceId()).orElseThrow(() -> new RecordNotFoundException("Place not found"));
         activePlaceRepository.findByPlaceIdAndActiveTrueAndDay(dto.getPlaceId(), dto.getDay()).ifPresent((obj) -> {
             throw new RecordAlreadyExistException("This day already activated");
@@ -104,7 +82,7 @@ public class RentalPlaceService {
     }
 
     @Transactional
-    public ApiResponse deActivePlaceByAdmin(DeActivatePlaceDto dto) {
+    public ApiResponse deActivePlace(DeActivatePlaceDto dto) {
         rentalPlaceRepository.findById(dto.getPlaceId()).orElseThrow(() -> new RecordNotFoundException("Place not found"));
         dto.getDays().forEach(day -> {
             ActivePlaceEntity activePlaceEntity = activePlaceRepository.findByPlaceIdAndActiveTrueAndDay(dto.getPlaceId(), day).orElseThrow(() -> new RecordNotFoundException("Place not activated this day :" + day));
@@ -113,7 +91,6 @@ public class RentalPlaceService {
         });
         return new ApiResponse(SUCCESSFULLY, HttpStatus.OK.value());
     }
-
 
     public ApiResponse getAllActivePlaces(PageRequestFilter page, LocalDate day) {
         PageRequest pageRequest = PageRequest.of(page.getPageNumber(), page.getPageSize());
