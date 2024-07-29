@@ -1,0 +1,45 @@
+server:
+  port: 8080
+
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        enable_lazy_load_no_trans: true
+    hibernate:
+      ddl-auto: none
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/rent
+    jdbc-url: jdbc:postgresql://localhost:5432/rent
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+    configuration:
+      jdbc-url: jdbc:postgresql://localhost:5432/rent
+      username: postgres
+      password: postgres
+  liquibase:
+    enabled: true
+    url: jdbc:postgresql://localhost:5432/rent
+    user: postgres
+    password: postgres
+    change-log: classpath:db/changelog/changeLogs.xml
+
+  servlet:
+    multipart:
+      max-request-size: 10MB
+
+languages:
+  primaryLang: 'en'
+
+attach:
+  upload:
+    folder: D:/App/rentalPlaces/src/main/resources/static/image/
+
+service:
+  sms-service:
+    username: 'samandarshodmonov1998@gmail.com'
+    password: 'TaEotaLMYaUqqGTgTrzjGnmIFo7whQfaf82vMU8o'
+    url: 'https://notify.eskiz.uz'
