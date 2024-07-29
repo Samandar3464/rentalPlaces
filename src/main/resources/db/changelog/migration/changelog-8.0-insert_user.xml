@@ -29,8 +29,8 @@
         <insert tableName="users">
             <column name="phone" value="+222222222222" />
             <column name="password" value="$2a$10$AFvIsCzJl82k/tuyfHpLh.kHiOEVNx4R6aJ1/oVD1l6H0TBVRkeBq" />
-            <column name="name" value="Driver" />
-            <column name="surname" value="Driver" />
+            <column name="name" value="Owner" />
+            <column name="surname" value="Owner" />
             <column name="gender" value="MAN" />
             <column name="created_at" value="2024-06-01 12:00:00" />
             <column name="blocked" value="true" />
@@ -38,9 +38,13 @@
         </insert>
 
     </changeSet>
-    <changeSet id="17.1" author="samandar">
+    <changeSet id="8.1" author="samandar">
         <insert tableName="users_role">
             <column name="role_id" value="1"/>
+            <column name="user_entity_id" value="1"/>
+        </insert>
+        <insert tableName="users_role">
+            <column name="role_id" value="4"/>
             <column name="user_entity_id" value="1"/>
         </insert>
         <insert tableName="users_role">
@@ -48,9 +52,10 @@
             <column name="user_entity_id" value="2"/>
         </insert>
         <insert tableName="users_role">
-            <column name="role_id" value="2"/>
-            <column name="user_entity_id" value="2"/>
+            <column name="role_id" value="3"/>
+            <column name="user_entity_id" value="3"/>
         </insert>
+
     </changeSet>
 
 </databaseChangeLog>

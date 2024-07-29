@@ -4,12 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import uz.project.rentalplaces.dto.base.ApiResponse;
 import uz.project.rentalplaces.dto.language.CreateTranslateTextDto;
-import uz.project.rentalplaces.dto.language.LanguageEnum;
+import uz.project.rentalplaces.enums.LanguageEnum;
 import uz.project.rentalplaces.entity.language.LanguageBaseWords;
 import uz.project.rentalplaces.entity.language.LanguageSource;
 import uz.project.rentalplaces.repository.LanguageRepository;
@@ -38,15 +39,15 @@ public class LanguageService {
         for (Map.Entry<String, String> entry : dto.entrySet()) {
             newWord = entry.getValue();
         }
-        if (!languageRepository.existsByCategoryAndText("credit", newWord)) {
+        if (!languageRepository.existsByCategoryAndText("rent", newWord)) {
             LanguageBaseWords languageBaseWords = LanguageBaseWords.builder()
                     .text(newWord)
-                    .category("credit")
+                    .category("rent")
                     .lang(primaryLang)
                     .build();
             languageRepository.save(languageBaseWords);
         }
-        return new ApiResponse(SUCCESSFULLY , true);
+        return new ApiResponse(SUCCESSFULLY , HttpStatus.OK.value());
     }
 
 
@@ -70,7 +71,7 @@ public class LanguageService {
                     en.setLanguage("En");
 
                     languageSourceRepository.saveAll(allByIdId);
-                    return new ApiResponse(SUCCESSFULLY , true);
+                    return new ApiResponse(SUCCESSFULLY , HttpStatus.OK.value());
                 }
                 HashMap<LanguageEnum, String> translations = dto.getTranslations();
 
@@ -81,33 +82,20 @@ public class LanguageService {
         } catch (Exception e) {
             throw e;
         }
-        return new ApiResponse(SUCCESSFULLY , true);
+        return new ApiResponse(SUCCESSFULLY , HttpStatus.OK.value());
     }
 
     public ApiResponse getAllPaginated(int page, int size , String content) {
         Pageable pageable = PageRequest.of(page, size);
         if (content.equals("null")) {
-            return  new ApiResponse(languageRepository.findAll(pageable),true);
+            return  new ApiResponse(languageRepository.findAll(pageable),HttpStatus.OK.value());
         }
-        return  new ApiResponse(languageRepository.findAllByTextContainingIgnoreCase(pageable, content),true);
+        return  new ApiResponse(languageRepository.findAllByTextContainingIgnoreCase(pageable, content),HttpStatus.OK.value());
     }
 
-    public ApiResponse getAllByLanguage(String language) {
-        List<LanguageBaseWords> allByLanguageBaseWords = languageRepository.findAll();
-        Map<String , String> languageSourceMap = new HashMap<String, String>();
-        if (!allByLanguageBaseWords.isEmpty()){
-            for (LanguageBaseWords languageBaseWordsPs : allByLanguageBaseWords) {
-                for (LanguageSource languageSource : languageBaseWordsPs.getLanguageSource()) {
-                    if (languageSource.getTranslation() !=null && languageSource.getLanguageBaseWords().equals(language)){
-                        languageSourceMap.put(languageBaseWordsPs.getText() , languageSource.getTranslation());
-                    }
-//                    else if (languageSourceP.getTranslation() ==null ) {
-//                            languageSourceMap.put(languagePs.getText() , null);
-//                    }
-                }
-            }
-        }
-        return new ApiResponse(languageSourceMap,true);
+    public ApiResponse getAllByLanguage(LanguageEnum language) {
+        List<Map<String, Object>> maps = jdbcTemplate.queryForList("select text, translation  from language_source  ,language_base_words where language_base_word_id = language_base_words.id and language = '" + language.getText() + "'");
+        return new ApiResponse(maps,HttpStatus.OK.value());
     }
 
 }

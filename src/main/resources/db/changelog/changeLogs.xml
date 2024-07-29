@@ -13,5 +13,7 @@
     <include file="/db/changelog/migration/changelog-6.0-create_sms_table.xml"/>
     <include file="/db/changelog/migration/changelog-7.0-create_sms_service_token_table.xml"/>
     <include file="/db/changelog/migration/changelog-8.0-insert_user.xml"/>
+    <include file="/db/changelog/migration/changelog-9.0-create_rental_place_table.xml"/>
+    <include file="/db/changelog/migration/changelog-10.0-create_active_place_table.xml"/>
 
 </databaseChangeLog>

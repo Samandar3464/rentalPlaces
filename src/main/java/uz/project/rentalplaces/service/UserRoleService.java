@@ -27,12 +27,12 @@ public class UserRoleService {
         }
         UserRole entity = UserRole.toEntity(dto);
         roleRepository.save(entity);
-        return new ApiResponse(SUCCESSFULLY, true);
+        return new ApiResponse(SUCCESSFULLY, HttpStatus.OK.value());
     }
 
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse getAll() {
-        return new ApiResponse(roleRepository.findAll(), true);
+        return new ApiResponse(roleRepository.findAll(), HttpStatus.OK.value());
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -42,7 +42,7 @@ public class UserRoleService {
 
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse getById(Integer id) {
-        return new ApiResponse(roleRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(ROLE_NOT_FOUND)), true);
+        return new ApiResponse(roleRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(ROLE_NOT_FOUND)), HttpStatus.OK.value());
     }
 
 
@@ -51,6 +51,6 @@ public class UserRoleService {
         UserRole userRole = roleRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(ROLE_NOT_FOUND));
         userRole.setDeleted(true);
         roleRepository.save(userRole);
-        return new ApiResponse(DELETED, true);
+        return new ApiResponse(DELETED, HttpStatus.OK.value());
     }
 }

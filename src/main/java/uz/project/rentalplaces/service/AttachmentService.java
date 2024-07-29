@@ -2,6 +2,7 @@ package uz.project.rentalplaces.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import uz.project.rentalplaces.dto.base.ApiResponse;
@@ -60,18 +61,16 @@ public class AttachmentService {
             byte[] bytes = file.getBytes();
             Path path = Paths.get(attachUploadFolder + pathFolder + "/" + fileName + "." + extension);
             Files.write(path, bytes).toFile();
-
-            Attachment entity = Attachment.builder()
-                    .newName(fileName)
-                    .originName(file.getOriginalFilename())
-                    .type(extension)
-                    .path(pathFolder)
-                    .size(file.getSize())
-                    .contentType(file.getContentType())
-                    .createdAt(LocalDateTime.now())
-                    .updatedAt(LocalDateTime.now())
-                    .deleted(false)
-                    .build();
+            Attachment entity = new Attachment();
+                    entity.setNewName(fileName);
+                    entity.setOriginName(file.getOriginalFilename());
+                    entity.setType(extension);
+                    entity.setPath(pathFolder);
+                    entity.setSize(file.getSize());
+                    entity.setContentType(file.getContentType());
+                    entity.setCreatedAt(LocalDateTime.now());
+                    entity.setUpdatedAt(LocalDateTime.now());
+                    entity.setDeleted(false);
 
             return attachmentRepository.save(entity);
         } catch (IOException e) {
@@ -137,7 +136,7 @@ public class AttachmentService {
             Path file = Paths.get(attachUploadFolder + entity.getPath() + "/" + fileName);
             Files.delete(file);
             attachmentRepository.deleteById(entity.getId());
-            return new ApiResponse(DELETED, true);
+            return new ApiResponse(DELETED, HttpStatus.OK.value());
         } catch (IOException e) {
             throw new RecordNotFoundException(FILE_NOT_FOUND);
         }

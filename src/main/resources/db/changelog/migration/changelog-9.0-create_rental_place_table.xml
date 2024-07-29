@@ -1,0 +1,59 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="9" author="Samandar">
+        <createTable tableName="rental_place">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="place_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rent_for" type="VARCHAR(255)"/>
+            <column name="info" type="TEXT"/>
+            <column name="owner_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="longitude" type="INTEGER"/>
+            <column name="latitude" type="INTEGER"/>
+            <column name="active" type="BOOLEAN"/>
+            <column name="created_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseColumnNames="owner_id"
+                baseTableName="rental_place"
+                constraintName="fk_rental_place_owner"
+                referencedColumnNames="id"
+                referencedTableName="users"/>
+
+        <createTable tableName="rental_place_photos">
+            <column name="photos_id" type="BIGINT">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="rental_place_entity_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseColumnNames="photos_id"
+                baseTableName="rental_place_photos"
+                constraintName="fk7ra4fe4wuy8qk203y0ovcnkeu"
+                referencedColumnNames="id"
+                referencedTableName="attachment"/>
+
+        <addForeignKeyConstraint
+                baseColumnNames="rental_place_entity_id"
+                baseTableName="rental_place_photos"
+                constraintName="fk7lsl6xij7wslykmgukmuvxrgl"
+                referencedColumnNames="id"
+                referencedTableName="rental_place"/>
+    </changeSet>
+
+
+</databaseChangeLog>

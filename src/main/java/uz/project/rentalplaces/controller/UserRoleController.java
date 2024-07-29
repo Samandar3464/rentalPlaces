@@ -1,6 +1,7 @@
 package uz.project.rentalplaces.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.project.rentalplaces.dto.base.ApiResponse;
 import uz.project.rentalplaces.dto.user.UserRoleDto;
@@ -14,25 +15,26 @@ public class UserRoleController {
     private final UserRoleService userRoleService;
 
     @PostMapping("/create")
-//    @PreAuthorize("hasAnyRole('DRIVER','ADMIN')")
+    @PreAuthorize("hasAnyRole('admin')")
     public ApiResponse create(@RequestBody UserRoleDto dto){
         return userRoleService.create(dto);
     }
 
     @GetMapping("/getAll")
+    @PreAuthorize("hasAnyRole('admin')")
     public ApiResponse getAll(){
         return userRoleService.getAll();
     }
 
 
     @GetMapping("/getById/{id}")
-//    @PreAuthorize("hasAnyRole('DRIVER','ADMIN')")
+    @PreAuthorize("hasAnyRole('admin')")
     public ApiResponse getById(@PathVariable Integer id){
         return userRoleService.getById(id);
     }
 
     @DeleteMapping("/delete/{id}")
-//    @PreAuthorize("hasAnyRole('DRIVER','ADMIN')")
+    @PreAuthorize("hasAnyRole('admin')")
     public ApiResponse delete(@PathVariable Integer id){
         return userRoleService.delete(id);
     }

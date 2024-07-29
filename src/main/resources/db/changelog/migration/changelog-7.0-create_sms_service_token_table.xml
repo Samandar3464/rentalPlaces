@@ -5,7 +5,7 @@
 
     <changeSet id="7" author="Samandar">
         <createTable tableName="sms_service_token">
-            <column name="id" type="BIGINT">
+            <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="token" type="text"/>
